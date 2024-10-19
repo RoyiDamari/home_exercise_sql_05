@@ -197,10 +197,10 @@ FROM products_orders po
 JOIN products p ON p.product_id = po.product_id
 GROUP BY po.product_id
 HAVING value = (
-    			SELECT MAX(total_sold)
-    		    FROM (
-    				  SELECT po.product_id, SUM(po.amount) AS total_sold
-    				  FROM products_orders po
+    		SELECT MAX(total_sold)
+    		FROM (
+    		      SELECT po.product_id, SUM(po.amount) AS total_sold
+    		      FROM products_orders po
                       GROUP BY po.product_id
                      )
                )
@@ -210,17 +210,17 @@ FROM products_orders po
 JOIN products p ON p.product_id = po.product_id
 GROUP BY po.product_id
 HAVING value = (
-    		    SELECT Min(total_sold)
-    			FROM (
-    				  SELECT po.product_id, SUM(po.amount) AS total_sold
-    				  FROM products_orders po
+    		SELECT Min(total_sold)
+    		FROM (
+    		      SELECT po.product_id, SUM(po.amount) AS total_sold
+    		      FROM products_orders po
                       GROUP BY po.product_id
                      )
                 );
 
  SELECT avg(total_sold) as avg_total_sold
  FROM (
- 	   SELECT product_id, SUM(amount) AS total_sold
+       SELECT product_id, SUM(amount) AS total_sold
        FROM products_orders
        GROUP BY product_id
       );
@@ -232,12 +232,12 @@ JOIN products p ON p.product_id = po.product_id
 JOIN category c ON c.category_id = p.category_id
 GROUP BY c.category_id
 HAVING value = (
-    			SELECT MAX(total_sold)
-    		    FROM (
-    				  SELECT c.category_id , SUM(po.amount) AS total_sold
-    				  FROM products_orders po
-    				  JOIN products p ON p.product_id = po.product_id
-					  JOIN category c ON c.category_id = p.category_id
+    		SELECT MAX(total_sold)
+    		FROM (
+    		      SELECT c.category_id , SUM(po.amount) AS total_sold
+    		      FROM products_orders po
+    		      JOIN products p ON p.product_id = po.product_id
+		      JOIN category c ON c.category_id = p.category_id
                       GROUP BY c.category_id
                      )
                )
@@ -248,12 +248,12 @@ JOIN products p ON p.product_id = po.product_id
 JOIN category c ON c.category_id = p.category_id
 GROUP BY c.category_id
 HAVING value = (
-    		    SELECT Min(total_sold)
-    			FROM (
-    				  SELECT c.category_id , SUM(po.amount) AS total_sold
-    				  FROM products_orders po
-    				  JOIN products p ON p.product_id = po.product_id
-					  JOIN category c ON c.category_id = p.category_id
+    		SELECT Min(total_sold)
+    		FROM (
+    		      SELECT c.category_id , SUM(po.amount) AS total_sold
+    		      FROM products_orders po
+    		      JOIN products p ON p.product_id = po.product_id
+		      JOIN category c ON c.category_id = p.category_id
                       GROUP BY c.category_id
                      )
                 );
@@ -261,7 +261,7 @@ HAVING value = (
 # 9
 SELECT name, max(cnt_orders) AS max_product
 FROM (
-	  SELECT p.name, count(order_id) AS cnt_orders
+      SELECT p.name, count(order_id) AS cnt_orders
       FROM products_orders po
       JOIN products p ON p.product_id = po.product_id
       group by p.name
